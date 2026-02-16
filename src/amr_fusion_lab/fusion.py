@@ -24,6 +24,10 @@ def build_gene_summary(scored_df: pd.DataFrame) -> pd.DataFrame:
         .agg(
             tools_detected=("tool", lambda x: ",".join(sorted(set(map(str, x))))),
             tool_count=("tool", "nunique"),
+            normalized_drug_classes=(
+                "drug_class_normalized",
+                lambda x: ",".join(sorted({str(v) for v in x if pd.notna(v)})) if len(x) else "",
+            ),
             best_identity=("identity", "max"),
             best_coverage=("coverage", "max"),
             max_confidence_score=("confidence_score", "max"),

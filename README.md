@@ -16,6 +16,7 @@ Most AMR tools produce raw hit tables. Labs still need manual interpretation.
   - ResFinder (TSV/CSV)
   - AMRFinder-style exports (TSV/CSV)
 - Normalize into canonical schema
+- Drug class ontology harmonization (cross-tool standardization)
 - Rule-based confidence scoring (transparent + auditable)
 - Export outputs:
   - fused CSV/JSON
@@ -134,7 +135,7 @@ flowchart LR
 ## Roadmap (next)
 - [ ] RGI parser
 - [x] Disagreement matrix (tool-vs-tool conflicts)
-- [ ] Drug class ontology harmonization
+- [x] Drug class ontology harmonization
 - [ ] HTML/PDF report generator
 - [x] AI narrative summary (strict JSON guardrails)
 - [ ] Docker image

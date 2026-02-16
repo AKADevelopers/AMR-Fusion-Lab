@@ -8,6 +8,7 @@ from .parsers import parse_resfinder, parse_amrfinder
 from .scoring import score_hits
 from .fusion import build_gene_summary, build_disagreement_table
 from .quality import normalize_and_filter_hits
+from .ontology import harmonize_drug_classes
 from .reporting import write_outputs
 from .ai_summary import generate_ai_summary
 
@@ -55,6 +56,7 @@ def run(
         min_coverage=min_coverage,
         deduplicate=deduplicate,
     )
+    fused = harmonize_drug_classes(fused)
 
     scored = score_hits(fused)
     gene_summary = build_gene_summary(scored)
