@@ -44,7 +44,7 @@ Generated files:
 - `outputs/SAMPLE_001/SAMPLE_001.amr_fused.json`
 - `outputs/SAMPLE_001/SAMPLE_001.report.md`
 
-## Architecture (MVP)
+## Architecture (Tool v0.1)
 ```mermaid
 flowchart LR
     A[ResFinder output] --> D[Fusion Engine]
