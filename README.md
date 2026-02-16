@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/AKADevelopers/AMR-Fusion-Lab/actions/workflows/ci.yml/badge.svg)](https://github.com/AKADevelopers/AMR-Fusion-Lab/actions/workflows/ci.yml)
 ![Python](https://img.shields.io/badge/python-3.10%2B-blue)
-![Status](https://img.shields.io/badge/status-Tool%20v0.1-blue)
+![Status](https://img.shields.io/badge/status-Tool%20v0.2-blue)
 
 Unified **AMR evidence fusion + interpretation toolkit** for microbiology and public-health workflows.
 
@@ -11,7 +11,7 @@ Most AMR tools produce raw hit tables. Labs still need manual interpretation.
 
 **AMR-Fusion-Lab** merges outputs from multiple AMR tools into one schema, adds confidence scoring, and generates reporting outputs that are easier to review and share.
 
-## Current release (v0.1)
+## Current release (v0.2)
 - Parse outputs from:
   - ResFinder (TSV/CSV)
   - AMRFinder-style exports (TSV/CSV)
@@ -33,6 +33,22 @@ python -m venv .venv
 . .venv/Scripts/activate  # Windows PowerShell/cmd users
 pip install -e .
 amr-fusion --help
+```
+
+## Docker quick start
+Build image:
+```bash
+docker build -t amr-fusion-lab:0.2 .
+```
+
+Run with mounted workspace data:
+```bash
+docker run --rm -v ${PWD}:/data -w /data amr-fusion-lab:0.2 run \
+  --resfinder examples/resfinder_sample.tsv \
+  --amrfinder examples/amrfinder_sample.tsv \
+  --rgi examples/rgi_sample.tsv \
+  --sample-id SAMPLE_001 \
+  --outdir outputs/SAMPLE_001
 ```
 
 ## Example run
