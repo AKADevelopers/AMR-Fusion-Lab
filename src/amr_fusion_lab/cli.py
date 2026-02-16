@@ -10,6 +10,7 @@ from .fusion import build_gene_summary, build_disagreement_table
 from .quality import normalize_and_filter_hits
 from .ontology import harmonize_drug_classes
 from .reporting import write_outputs
+from .validation import validate_canonical_hits
 from .ai_summary import generate_ai_summary
 
 app = typer.Typer(help="AMR Fusion Lab CLI")
@@ -33,6 +34,7 @@ def run(
     min_identity: float = typer.Option(0.0, help="Minimum identity threshold (0-100)"),
     min_coverage: float = typer.Option(0.0, help="Minimum coverage threshold (0-100)"),
     deduplicate: bool = typer.Option(True, help="Drop duplicate tool-level hits"),
+    strict_validation: bool = typer.Option(False, help="Treat validation warnings as errors"),
 ):
     """Fuse AMR hits from supported tools and generate report files."""
     frames: list[pd.DataFrame] = []
@@ -61,6 +63,13 @@ def run(
     )
     fused = harmonize_drug_classes(fused)
 
+    validation_messages = validate_canonical_hits(fused, strict=strict_validation)
+    for msg in validation_messages:
+        if msg.startswith("WARN:"):
+            print(f"[yellow]{msg}[/yellow]")
+        elif msg.startswith("ERROR:"):
+            raise typer.BadParameter(msg)
+
     scored = score_hits(fused)
     gene_summary = build_gene_summary(scored)
     disagreements = build_disagreement_table(gene_summary)
@@ -70,7 +79,9 @@ def run(
             "min_identity": min_identity,
             "min_coverage": min_coverage,
             "deduplicate": deduplicate,
+            "strict_validation": strict_validation,
         },
+        "validation_messages": validation_messages,
         "ai": {
             "enabled": ai_enable,
             "provider": ai_provider,

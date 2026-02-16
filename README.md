@@ -132,6 +132,16 @@ amr-fusion \
   --deduplicate
 ```
 
+### Strict validation mode
+Use strict mode to fail the run when validation warnings are present:
+```bash
+amr-fusion \
+  --resfinder examples/resfinder_sample.tsv \
+  --sample-id SAMPLE_001 \
+  --outdir outputs/SAMPLE_001 \
+  --strict-validation
+```
+
 ## Architecture (Tool v0.1)
 ```mermaid
 flowchart LR
