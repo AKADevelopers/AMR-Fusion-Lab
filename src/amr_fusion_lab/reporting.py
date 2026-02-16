@@ -63,6 +63,11 @@ def _markdown_summary(
 
     unique_genes = len(gene_summary) if gene_summary is not None else "N/A"
     disagreement_count = len(disagreements) if disagreements is not None else "N/A"
+    consensus_tiers = (
+        gene_summary["consensus_tier"].value_counts(dropna=False).to_dict()
+        if gene_summary is not None and "consensus_tier" in gene_summary.columns
+        else {}
+    )
 
     lines = [
         f"# AMR Fusion Report - {sample_id}",
@@ -71,6 +76,7 @@ def _markdown_summary(
         f"- Unique genes: **{unique_genes}**",
         f"- Confidence counts: **{by_conf}**",
         f"- Single-tool disagreement candidates: **{disagreement_count}**",
+        f"- Consensus tiers: **{consensus_tiers}**",
         f"- Top genes (first 10): {top_genes if top_genes else 'N/A'}",
         "",
         "## Notes",

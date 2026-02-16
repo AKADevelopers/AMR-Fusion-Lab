@@ -19,6 +19,8 @@ def test_gene_summary_and_disagreements():
     assert bla["tool_count"] == 2
     assert bla["consensus_level"] == "multi-tool"
     assert bla["normalized_drug_classes"] == "beta-lactam"
+    assert bla["weighted_consensus_score"] >= 0.95
+    assert bla["consensus_tier"] in {"high", "very-high"}
 
     d = build_disagreement_table(g)
     assert len(d) == 1

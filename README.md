@@ -19,6 +19,7 @@ Most AMR tools produce raw hit tables. Labs still need manual interpretation.
 - Normalize into canonical schema
 - Drug class ontology harmonization (cross-tool standardization)
 - Rule-based confidence scoring (transparent + auditable)
+- Weighted consensus scoring with tool reliability priors
 - Export outputs:
   - fused CSV/JSON
   - gene summary CSV/JSON
@@ -131,6 +132,7 @@ flowchart LR
 ## What makes this useful
 - Multi-tool fusion in one place
 - Confidence tiers with explicit rationale
+- Weighted consensus tiers for gene-level decision support
 - Lab/public-health friendly reporting
 - Reproducible and auditable output files
 
@@ -138,7 +140,8 @@ flowchart LR
 - [x] RGI parser
 - [x] Disagreement matrix (tool-vs-tool conflicts)
 - [x] Drug class ontology harmonization
-- [ ] HTML/PDF report generator
+- [x] HTML report generator
+- [ ] PDF report generator
 - [x] AI narrative summary (strict JSON guardrails)
 - [ ] Docker image
 
