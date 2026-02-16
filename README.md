@@ -69,6 +69,7 @@ Generated files:
 - `outputs/SAMPLE_001/SAMPLE_001.disagreements.csv`
 - `outputs/SAMPLE_001/SAMPLE_001.report.md`
 - `outputs/SAMPLE_001/SAMPLE_001.report.html`
+- `outputs/SAMPLE_001/SAMPLE_001.report.pdf`
 - `outputs/SAMPLE_001/SAMPLE_001.run_manifest.json`
 
 ## AI summary mode (professional interpretation layer)
@@ -143,6 +144,11 @@ amr-fusion run \
 ```
 
 ### Config-driven runs (recommended for teams)
+Generate a starter config:
+```bash
+amr-fusion init-config --output amr_fusion.yaml
+```
+
 Use a YAML config for reproducible, standardized lab runs:
 ```bash
 amr-fusion run-config --config examples/amr_fusion.example.yaml
@@ -173,7 +179,7 @@ flowchart LR
 - [x] Disagreement matrix (tool-vs-tool conflicts)
 - [x] Drug class ontology harmonization
 - [x] HTML report generator
-- [ ] PDF report generator
+- [x] PDF report generator
 - [x] AI narrative summary (strict JSON guardrails)
 - [x] Docker image
 

@@ -28,25 +28,31 @@ def write_outputs(
         disagreements.to_csv(p / f"{sample_id}.disagreements.csv", index=False)
 
     summary = _markdown_summary(df, sample_id, gene_summary, disagreements)
-    report_md = p / f"{sample_id}.report.md"
-    report_md.write_text(summary, encoding="utf-8")
+    (p / f"{sample_id}.report.md").write_text(summary, encoding="utf-8")
 
     report_html = _to_basic_html(summary)
     (p / f"{sample_id}.report.html").write_text(report_html, encoding="utf-8")
 
+    pdf_written = _write_simple_pdf(summary, p / f"{sample_id}.report.pdf")
+
+    output_files = [
+        f"{sample_id}.amr_fused.csv",
+        f"{sample_id}.amr_fused.json",
+        f"{sample_id}.gene_summary.csv",
+        f"{sample_id}.gene_summary.json",
+        f"{sample_id}.disagreements.csv",
+        f"{sample_id}.report.md",
+        f"{sample_id}.report.html",
+    ]
+    if pdf_written:
+        output_files.append(f"{sample_id}.report.pdf")
+
     manifest = {
         "sample_id": sample_id,
         "generated_at_utc": datetime.now(timezone.utc).isoformat(),
-        "output_files": [
-            f"{sample_id}.amr_fused.csv",
-            f"{sample_id}.amr_fused.json",
-            f"{sample_id}.gene_summary.csv",
-            f"{sample_id}.gene_summary.json",
-            f"{sample_id}.disagreements.csv",
-            f"{sample_id}.report.md",
-            f"{sample_id}.report.html",
-        ],
+        "output_files": output_files,
         "run_meta": run_meta or {},
+        "pdf_export": "enabled" if pdf_written else "skipped_reportlab_missing",
     }
     (p / f"{sample_id}.run_manifest.json").write_text(json.dumps(manifest, indent=2), encoding="utf-8")
 
@@ -88,12 +94,7 @@ def _markdown_summary(
 
 
 def _to_basic_html(markdown_text: str) -> str:
-    """Minimal markdown-to-html wrapper for quick professional sharing."""
-    escaped = (
-        markdown_text.replace("&", "&amp;")
-        .replace("<", "&lt;")
-        .replace(">", "&gt;")
-    )
+    escaped = markdown_text.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
     body = escaped.replace("\n", "<br>\n")
     return (
         "<!doctype html><html><head><meta charset='utf-8'>"
@@ -104,3 +105,28 @@ def _to_basic_html(markdown_text: str) -> str:
         f"{body}"
         "</body></html>"
     )
+
+
+def _write_simple_pdf(text: str, path: Path) -> bool:
+    """Write a simple text PDF report; return False if reportlab missing."""
+    try:
+        from reportlab.lib.pagesizes import A4
+        from reportlab.pdfgen import canvas
+    except Exception:
+        return False
+
+    c = canvas.Canvas(str(path), pagesize=A4)
+    _, height = A4
+    y = height - 40
+    line_height = 14
+
+    for raw in text.splitlines():
+        line = raw[:140]
+        if y < 40:
+            c.showPage()
+            y = height - 40
+        c.drawString(40, y, line)
+        y -= line_height
+
+    c.save()
+    return True

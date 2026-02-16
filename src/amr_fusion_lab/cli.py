@@ -11,7 +11,7 @@ from .quality import normalize_and_filter_hits
 from .ontology import harmonize_drug_classes
 from .reporting import write_outputs
 from .validation import validate_canonical_hits
-from .config import load_config, ConfigError
+from .config import load_config, write_default_config, ConfigError
 from .ai_summary import generate_ai_summary
 
 app = typer.Typer(help="AMR Fusion Lab CLI")
@@ -177,6 +177,20 @@ def run_config(
         deduplicate=bool(cfg.get("deduplicate", True)),
         strict_validation=bool(cfg.get("strict_validation", False)),
     )
+
+
+@app.command("init-config")
+def init_config(
+    output: str = typer.Option("amr_fusion.yaml", "--output", help="Where to write starter config"),
+    force: bool = typer.Option(False, help="Overwrite existing file"),
+):
+    """Generate a starter YAML config for standardized team runs."""
+    try:
+        p = write_default_config(output, force=force)
+    except ConfigError as e:
+        raise typer.BadParameter(str(e)) from e
+
+    print(f"[green]Config template created[/green]: {p}")
 
 
 if __name__ == "__main__":

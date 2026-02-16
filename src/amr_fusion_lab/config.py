@@ -25,3 +25,29 @@ def load_config(path: str) -> dict[str, Any]:
         raise ConfigError(f"Missing required config keys: {missing}")
 
     return data
+
+
+def write_default_config(path: str, force: bool = False) -> Path:
+    p = Path(path)
+    if p.exists() and not force:
+        raise ConfigError(f"Config file already exists: {path}. Use --force to overwrite.")
+
+    p.parent.mkdir(parents=True, exist_ok=True)
+
+    template = {
+        "sample_id": "SAMPLE_001",
+        "outdir": "outputs/SAMPLE_001",
+        "resfinder": "examples/resfinder_sample.tsv",
+        "amrfinder": "examples/amrfinder_sample.tsv",
+        "rgi": "examples/rgi_sample.tsv",
+        "min_identity": 90,
+        "min_coverage": 70,
+        "deduplicate": True,
+        "strict_validation": False,
+        "ai_enable": False,
+        "ai_provider": "openai_compatible",
+        "ai_model": "gpt-4o-mini",
+    }
+
+    p.write_text(yaml.safe_dump(template, sort_keys=False), encoding="utf-8")
+    return p

@@ -47,6 +47,7 @@ jobs:
           test -f outputs/CI_SAMPLE/CI_SAMPLE.disagreements.csv
           test -f outputs/CI_SAMPLE/CI_SAMPLE.report.md
           test -f outputs/CI_SAMPLE/CI_SAMPLE.report.html
+          test -f outputs/CI_SAMPLE/CI_SAMPLE.report.pdf
           test -f outputs/CI_SAMPLE/CI_SAMPLE.run_manifest.json
 
   docker-build:
