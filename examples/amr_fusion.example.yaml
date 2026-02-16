@@ -1,0 +1,15 @@
+sample_id: SAMPLE_CFG
+outdir: outputs/SAMPLE_CFG
+
+resfinder: examples/resfinder_sample.tsv
+amrfinder: examples/amrfinder_sample.tsv
+rgi: examples/rgi_sample.tsv
+
+min_identity: 90
+min_coverage: 70
+deduplicate: true
+strict_validation: false
+
+ai_enable: false
+ai_provider: openai_compatible
+ai_model: gpt-4o-mini

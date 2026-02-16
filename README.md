@@ -53,7 +53,7 @@ docker run --rm -v ${PWD}:/data -w /data amr-fusion-lab:0.2 run \
 
 ## Example run
 ```bash
-amr-fusion \
+amr-fusion run \
   --resfinder examples/resfinder_sample.tsv \
   --amrfinder examples/amrfinder_sample.tsv \
   --rgi examples/rgi_sample.tsv \
@@ -79,7 +79,7 @@ You can run multiple providers:
 set OPENAI_API_KEY=YOUR_KEY
 # optional: set OPENAI_API_BASE=https://openrouter.ai/api/v1
 
-amr-fusion \
+amr-fusion run \
   --resfinder examples/resfinder_sample.tsv \
   --amrfinder examples/amrfinder_sample.tsv \
   --sample-id SAMPLE_001 \
@@ -93,7 +93,7 @@ amr-fusion \
 ```bash
 set ANTHROPIC_API_KEY=YOUR_KEY
 
-amr-fusion \
+amr-fusion run \
   --resfinder examples/resfinder_sample.tsv \
   --amrfinder examples/amrfinder_sample.tsv \
   --sample-id SAMPLE_001 \
@@ -106,7 +106,7 @@ amr-fusion \
 ### C) Free/Open-source local model via Ollama
 ```bash
 # first run your local model, e.g. llama3.1
-amr-fusion \
+amr-fusion run \
   --resfinder examples/resfinder_sample.tsv \
   --amrfinder examples/amrfinder_sample.tsv \
   --sample-id SAMPLE_001 \
@@ -122,7 +122,7 @@ Additional AI files:
 
 ### Optional quality gates
 ```bash
-amr-fusion \
+amr-fusion run \
   --resfinder examples/resfinder_sample.tsv \
   --amrfinder examples/amrfinder_sample.tsv \
   --sample-id SAMPLE_001 \
@@ -135,14 +135,20 @@ amr-fusion \
 ### Strict validation mode
 Use strict mode to fail the run when validation warnings are present:
 ```bash
-amr-fusion \
+amr-fusion run \
   --resfinder examples/resfinder_sample.tsv \
   --sample-id SAMPLE_001 \
   --outdir outputs/SAMPLE_001 \
   --strict-validation
 ```
 
-## Architecture (Tool v0.1)
+### Config-driven runs (recommended for teams)
+Use a YAML config for reproducible, standardized lab runs:
+```bash
+amr-fusion run-config --config examples/amr_fusion.example.yaml
+```
+
+## Architecture (Tool v0.2)
 ```mermaid
 flowchart LR
     A[ResFinder output] --> D[Fusion Engine]
@@ -169,7 +175,7 @@ flowchart LR
 - [x] HTML report generator
 - [ ] PDF report generator
 - [x] AI narrative summary (strict JSON guardrails)
-- [ ] Docker image
+- [x] Docker image
 
 ## Contributing
 PRs and issues are welcome. For major changes, open an issue first with:
@@ -179,4 +185,5 @@ PRs and issues are welcome. For major changes, open an issue first with:
 
 ## Disclaimer
 This project is a research/decision-support utility and not a standalone clinical diagnostic device.
+
 

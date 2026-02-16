@@ -35,7 +35,7 @@ jobs:
 
       - name: CLI smoke test
         run: |
-          amr-fusion \
+          amr-fusion run \
             --resfinder examples/resfinder_sample.tsv \
             --amrfinder examples/amrfinder_sample.tsv \
             --rgi examples/rgi_sample.tsv \
