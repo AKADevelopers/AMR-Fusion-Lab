@@ -42,6 +42,9 @@ amr-fusion run \
 Generated files:
 - `outputs/SAMPLE_001/SAMPLE_001.amr_fused.csv`
 - `outputs/SAMPLE_001/SAMPLE_001.amr_fused.json`
+- `outputs/SAMPLE_001/SAMPLE_001.gene_summary.csv`
+- `outputs/SAMPLE_001/SAMPLE_001.gene_summary.json`
+- `outputs/SAMPLE_001/SAMPLE_001.disagreements.csv`
 - `outputs/SAMPLE_001/SAMPLE_001.report.md`
 
 ## Architecture (Tool v0.1)

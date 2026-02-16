@@ -6,6 +6,7 @@ from rich import print
 
 from .parsers import parse_resfinder, parse_amrfinder
 from .scoring import score_hits
+from .fusion import build_gene_summary, build_disagreement_table
 from .reporting import write_outputs
 
 app = typer.Typer(help="AMR Fusion Lab CLI")
@@ -31,7 +32,16 @@ def run(
 
     fused = pd.concat(frames, ignore_index=True)
     scored = score_hits(fused)
-    write_outputs(scored, outdir=outdir, sample_id=sample_id)
+    gene_summary = build_gene_summary(scored)
+    disagreements = build_disagreement_table(gene_summary)
+
+    write_outputs(
+        scored,
+        outdir=outdir,
+        sample_id=sample_id,
+        gene_summary=gene_summary,
+        disagreements=disagreements,
+    )
 
     print(f"[green]Done[/green] -> outputs written to [bold]{outdir}[/bold]")
 
