@@ -50,22 +50,48 @@ Generated files:
 - `outputs/SAMPLE_001/SAMPLE_001.report.md`
 
 ## AI summary mode (professional interpretation layer)
-Set your API key first:
-```bash
-set OPENAI_API_KEY=YOUR_KEY   # Windows cmd
-# or in PowerShell:
-# $env:OPENAI_API_KEY="YOUR_KEY"
-```
+You can run multiple providers:
 
-Run with AI enabled:
+### A) OpenAI-compatible (OpenAI / OpenRouter / Groq / Together / local vLLM)
 ```bash
+set OPENAI_API_KEY=YOUR_KEY
+# optional: set OPENAI_API_BASE=https://openrouter.ai/api/v1
+
 amr-fusion run \
   --resfinder examples/resfinder_sample.tsv \
   --amrfinder examples/amrfinder_sample.tsv \
   --sample-id SAMPLE_001 \
   --outdir outputs/SAMPLE_001 \
   --ai-enable \
+  --ai-provider openai_compatible \
   --ai-model gpt-4o-mini
+```
+
+### B) Claude (Anthropic)
+```bash
+set ANTHROPIC_API_KEY=YOUR_KEY
+
+amr-fusion run \
+  --resfinder examples/resfinder_sample.tsv \
+  --amrfinder examples/amrfinder_sample.tsv \
+  --sample-id SAMPLE_001 \
+  --outdir outputs/SAMPLE_001 \
+  --ai-enable \
+  --ai-provider anthropic \
+  --ai-model claude-3-5-sonnet-latest
+```
+
+### C) Free/Open-source local model via Ollama
+```bash
+# first run your local model, e.g. llama3.1
+amr-fusion run \
+  --resfinder examples/resfinder_sample.tsv \
+  --amrfinder examples/amrfinder_sample.tsv \
+  --sample-id SAMPLE_001 \
+  --outdir outputs/SAMPLE_001 \
+  --ai-enable \
+  --ai-provider ollama \
+  --ai-model llama3.1
 ```
 
 Additional AI files:

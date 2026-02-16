@@ -20,9 +20,13 @@ def run(
     resfinder: str | None = typer.Option(None, help="Path to ResFinder output (tsv/csv)"),
     amrfinder: str | None = typer.Option(None, help="Path to AMRFinder output (tsv/csv)"),
     ai_enable: bool = typer.Option(False, help="Enable AI interpretation summary"),
-    ai_model: str = typer.Option("gpt-4o-mini", help="OpenAI-compatible model for AI summary"),
-    ai_api_base: str | None = typer.Option(None, help="OpenAI-compatible API base URL"),
-    ai_api_key: str | None = typer.Option(None, help="API key (or set OPENAI_API_KEY)"),
+    ai_provider: str = typer.Option(
+        "openai_compatible",
+        help="AI provider: openai_compatible | anthropic | ollama",
+    ),
+    ai_model: str = typer.Option("gpt-4o-mini", help="Model name (e.g., claude-3-5-sonnet-latest)"),
+    ai_api_base: str | None = typer.Option(None, help="Provider API base URL override"),
+    ai_api_key: str | None = typer.Option(None, help="Provider API key override"),
 ):
     """Fuse AMR hits from supported tools and generate report files."""
     frames: list[pd.DataFrame] = []
@@ -56,6 +60,7 @@ def run(
             disagreements_df=disagreements,
             outdir=outdir,
             model=ai_model,
+            provider=ai_provider,
             api_base=ai_api_base,
             api_key=ai_api_key,
         )
