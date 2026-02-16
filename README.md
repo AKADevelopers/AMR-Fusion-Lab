@@ -15,6 +15,7 @@ Most AMR tools produce raw hit tables. Labs still need manual interpretation.
 - Parse outputs from:
   - ResFinder (TSV/CSV)
   - AMRFinder-style exports (TSV/CSV)
+  - RGI exports (TSV/CSV)
 - Normalize into canonical schema
 - Drug class ontology harmonization (cross-tool standardization)
 - Rule-based confidence scoring (transparent + auditable)
@@ -38,6 +39,7 @@ amr-fusion --help
 amr-fusion run \
   --resfinder examples/resfinder_sample.tsv \
   --amrfinder examples/amrfinder_sample.tsv \
+  --rgi examples/rgi_sample.tsv \
   --sample-id SAMPLE_001 \
   --outdir outputs/SAMPLE_001
 ```
@@ -133,7 +135,7 @@ flowchart LR
 - Reproducible and auditable output files
 
 ## Roadmap (next)
-- [ ] RGI parser
+- [x] RGI parser
 - [x] Disagreement matrix (tool-vs-tool conflicts)
 - [x] Drug class ontology harmonization
 - [ ] HTML/PDF report generator

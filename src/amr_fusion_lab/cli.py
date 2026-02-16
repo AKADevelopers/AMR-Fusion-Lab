@@ -4,7 +4,7 @@ import pandas as pd
 import typer
 from rich import print
 
-from .parsers import parse_resfinder, parse_amrfinder
+from .parsers import parse_resfinder, parse_amrfinder, parse_rgi
 from .scoring import score_hits
 from .fusion import build_gene_summary, build_disagreement_table
 from .quality import normalize_and_filter_hits
@@ -21,6 +21,7 @@ def run(
     outdir: str = typer.Option("outputs", help="Output directory"),
     resfinder: str | None = typer.Option(None, help="Path to ResFinder output (tsv/csv)"),
     amrfinder: str | None = typer.Option(None, help="Path to AMRFinder output (tsv/csv)"),
+    rgi: str | None = typer.Option(None, help="Path to RGI output (tsv/csv)"),
     ai_enable: bool = typer.Option(False, help="Enable AI interpretation summary"),
     ai_provider: str = typer.Option(
         "openai_compatible",
@@ -40,9 +41,11 @@ def run(
         frames.append(parse_resfinder(resfinder, sample_id))
     if amrfinder:
         frames.append(parse_amrfinder(amrfinder, sample_id))
+    if rgi:
+        frames.append(parse_rgi(rgi, sample_id))
 
     if not frames:
-        raise typer.BadParameter("Provide at least one input: --resfinder or --amrfinder")
+        raise typer.BadParameter("Provide at least one input: --resfinder, --amrfinder, or --rgi")
 
     if min_identity < 0 or min_identity > 100:
         raise typer.BadParameter("--min-identity must be between 0 and 100")

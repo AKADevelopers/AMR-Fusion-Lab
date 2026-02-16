@@ -38,6 +38,26 @@ def parse_amrfinder(path: str, sample_id: str) -> pd.DataFrame:
     return out
 
 
+def parse_rgi(path: str, sample_id: str) -> pd.DataFrame:
+    """Parse a simplified RGI TSV export into canonical schema."""
+    df = _read_any(path)
+    mapping = {
+        "Best_Hit_ARO": "gene",
+        "Best Hit ARO": "gene",
+        "Drug Class": "drug_class",
+        "% Identity": "identity",
+        "% Length of Reference Sequence": "coverage",
+    }
+    out = _canonicalize(df, mapping)
+
+    # RGI Best_Hit_ARO may look like 'ARO:3000001|blaTEM-1'
+    out["gene"] = out["gene"].astype(str).str.split("|").str[-1]
+
+    out["sample_id"] = sample_id
+    out["tool"] = "rgi"
+    return out
+
+
 def _read_any(path: str) -> pd.DataFrame:
     if path.lower().endswith(".csv"):
         return pd.read_csv(path)
