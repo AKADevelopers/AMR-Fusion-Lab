@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/AKADevelopers/AMR-Fusion-Lab/actions/workflows/ci.yml/badge.svg)](https://github.com/AKADevelopers/AMR-Fusion-Lab/actions/workflows/ci.yml)
 ![Python](https://img.shields.io/badge/python-3.10%2B-blue)
-![Status](https://img.shields.io/badge/status-MVP-orange)
+![Status](https://img.shields.io/badge/status-Tool%20v0.1-blue)
 
 Unified **AMR evidence fusion + interpretation toolkit** for microbiology and public-health workflows.
 
@@ -11,7 +11,7 @@ Most AMR tools produce raw hit tables. Labs still need manual interpretation.
 
 **AMR-Fusion-Lab** merges outputs from multiple AMR tools into one schema, adds confidence scoring, and generates reporting outputs that are easier to review and share.
 
-## Current MVP (v0.1)
+## Current release (v0.1)
 - Parse outputs from:
   - ResFinder (TSV/CSV)
   - AMRFinder-style exports (TSV/CSV)
