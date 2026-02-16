@@ -48,6 +48,8 @@ Generated files:
 - `outputs/SAMPLE_001/SAMPLE_001.gene_summary.json`
 - `outputs/SAMPLE_001/SAMPLE_001.disagreements.csv`
 - `outputs/SAMPLE_001/SAMPLE_001.report.md`
+- `outputs/SAMPLE_001/SAMPLE_001.report.html`
+- `outputs/SAMPLE_001/SAMPLE_001.run_manifest.json`
 
 ## AI summary mode (professional interpretation layer)
 You can run multiple providers:
@@ -97,6 +99,18 @@ amr-fusion run \
 Additional AI files:
 - `outputs/SAMPLE_001/SAMPLE_001.ai_summary.json`
 - `outputs/SAMPLE_001/SAMPLE_001.ai_summary.md`
+
+### Optional quality gates
+```bash
+amr-fusion run \
+  --resfinder examples/resfinder_sample.tsv \
+  --amrfinder examples/amrfinder_sample.tsv \
+  --sample-id SAMPLE_001 \
+  --outdir outputs/SAMPLE_001 \
+  --min-identity 90 \
+  --min-coverage 70 \
+  --deduplicate
+```
 
 ## Architecture (Tool v0.1)
 ```mermaid
