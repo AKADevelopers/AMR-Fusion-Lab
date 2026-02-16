@@ -1,0 +1,40 @@
+from __future__ import annotations
+
+import pandas as pd
+import typer
+from rich import print
+
+from .parsers import parse_resfinder, parse_amrfinder
+from .scoring import score_hits
+from .reporting import write_outputs
+
+app = typer.Typer(help="AMR Fusion Lab CLI")
+
+
+@app.command()
+def run(
+    sample_id: str = typer.Option(..., help="Sample identifier"),
+    outdir: str = typer.Option("outputs", help="Output directory"),
+    resfinder: str | None = typer.Option(None, help="Path to ResFinder output (tsv/csv)"),
+    amrfinder: str | None = typer.Option(None, help="Path to AMRFinder output (tsv/csv)"),
+):
+    """Fuse AMR hits from supported tools and generate report files."""
+    frames: list[pd.DataFrame] = []
+
+    if resfinder:
+        frames.append(parse_resfinder(resfinder, sample_id))
+    if amrfinder:
+        frames.append(parse_amrfinder(amrfinder, sample_id))
+
+    if not frames:
+        raise typer.BadParameter("Provide at least one input: --resfinder or --amrfinder")
+
+    fused = pd.concat(frames, ignore_index=True)
+    scored = score_hits(fused)
+    write_outputs(scored, outdir=outdir, sample_id=sample_id)
+
+    print(f"[green]Done[/green] -> outputs written to [bold]{outdir}[/bold]")
+
+
+if __name__ == "__main__":
+    app()

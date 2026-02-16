@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "amr-fusion-lab"
+version = "0.1.0"
+description = "Unified AMR evidence fusion and reporting toolkit"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+  "pandas>=2.0",
+  "pydantic>=2.0",
+  "typer>=0.12",
+  "rich>=13.0"
+]
+
+[project.scripts]
+amr-fusion = "amr_fusion_lab.cli:app"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
