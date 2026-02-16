@@ -53,7 +53,7 @@ docker run --rm -v ${PWD}:/data -w /data amr-fusion-lab:0.2 run \
 
 ## Example run
 ```bash
-amr-fusion run \
+amr-fusion \
   --resfinder examples/resfinder_sample.tsv \
   --amrfinder examples/amrfinder_sample.tsv \
   --rgi examples/rgi_sample.tsv \
@@ -79,7 +79,7 @@ You can run multiple providers:
 set OPENAI_API_KEY=YOUR_KEY
 # optional: set OPENAI_API_BASE=https://openrouter.ai/api/v1
 
-amr-fusion run \
+amr-fusion \
   --resfinder examples/resfinder_sample.tsv \
   --amrfinder examples/amrfinder_sample.tsv \
   --sample-id SAMPLE_001 \
@@ -93,7 +93,7 @@ amr-fusion run \
 ```bash
 set ANTHROPIC_API_KEY=YOUR_KEY
 
-amr-fusion run \
+amr-fusion \
   --resfinder examples/resfinder_sample.tsv \
   --amrfinder examples/amrfinder_sample.tsv \
   --sample-id SAMPLE_001 \
@@ -106,7 +106,7 @@ amr-fusion run \
 ### C) Free/Open-source local model via Ollama
 ```bash
 # first run your local model, e.g. llama3.1
-amr-fusion run \
+amr-fusion \
   --resfinder examples/resfinder_sample.tsv \
   --amrfinder examples/amrfinder_sample.tsv \
   --sample-id SAMPLE_001 \
@@ -122,7 +122,7 @@ Additional AI files:
 
 ### Optional quality gates
 ```bash
-amr-fusion run \
+amr-fusion \
   --resfinder examples/resfinder_sample.tsv \
   --amrfinder examples/amrfinder_sample.tsv \
   --sample-id SAMPLE_001 \
@@ -169,3 +169,4 @@ PRs and issues are welcome. For major changes, open an issue first with:
 
 ## Disclaimer
 This project is a research/decision-support utility and not a standalone clinical diagnostic device.
+

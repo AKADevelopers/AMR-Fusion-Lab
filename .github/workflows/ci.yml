@@ -3,12 +3,18 @@ name: CI
 on:
   push:
     branches: ["main"]
+    tags: ["v*"]
   pull_request:
     branches: ["main"]
 
 jobs:
   test:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.10", "3.11", "3.12"]
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -16,7 +22,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: "3.11"
+          python-version: ${{ matrix.python-version }}
 
       - name: Install dependencies
         run: |
@@ -24,5 +30,30 @@ jobs:
           pip install -e .
           pip install pytest
 
-      - name: Run tests
+      - name: Run unit tests
         run: pytest -q
+
+      - name: CLI smoke test
+        run: |
+          amr-fusion \
+            --resfinder examples/resfinder_sample.tsv \
+            --amrfinder examples/amrfinder_sample.tsv \
+            --rgi examples/rgi_sample.tsv \
+            --sample-id CI_SAMPLE \
+            --outdir outputs/CI_SAMPLE
+
+          test -f outputs/CI_SAMPLE/CI_SAMPLE.amr_fused.csv
+          test -f outputs/CI_SAMPLE/CI_SAMPLE.gene_summary.csv
+          test -f outputs/CI_SAMPLE/CI_SAMPLE.disagreements.csv
+          test -f outputs/CI_SAMPLE/CI_SAMPLE.report.md
+          test -f outputs/CI_SAMPLE/CI_SAMPLE.report.html
+          test -f outputs/CI_SAMPLE/CI_SAMPLE.run_manifest.json
+
+  docker-build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build Docker image
+        run: docker build -t amr-fusion-lab:test .
