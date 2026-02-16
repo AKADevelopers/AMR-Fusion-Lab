@@ -27,6 +27,8 @@ Most AMR tools produce raw hit tables. Labs still need manual interpretation.
   - markdown report
 - Optional AI interpretation summary (OpenAI-compatible)
 
+For full setup instructions, see [INSTALL.md](INSTALL.md).
+
 ## Quick start
 ```bash
 python -m venv .venv
