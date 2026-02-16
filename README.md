@@ -18,9 +18,11 @@ Most AMR tools produce raw hit tables. Labs still need manual interpretation.
 - Normalize into canonical schema
 - Rule-based confidence scoring (transparent + auditable)
 - Export outputs:
-  - fused CSV
-  - fused JSON
+  - fused CSV/JSON
+  - gene summary CSV/JSON
+  - disagreement table CSV
   - markdown report
+- Optional AI interpretation summary (OpenAI-compatible)
 
 ## Quick start
 ```bash
@@ -47,6 +49,29 @@ Generated files:
 - `outputs/SAMPLE_001/SAMPLE_001.disagreements.csv`
 - `outputs/SAMPLE_001/SAMPLE_001.report.md`
 
+## AI summary mode (professional interpretation layer)
+Set your API key first:
+```bash
+set OPENAI_API_KEY=YOUR_KEY   # Windows cmd
+# or in PowerShell:
+# $env:OPENAI_API_KEY="YOUR_KEY"
+```
+
+Run with AI enabled:
+```bash
+amr-fusion run \
+  --resfinder examples/resfinder_sample.tsv \
+  --amrfinder examples/amrfinder_sample.tsv \
+  --sample-id SAMPLE_001 \
+  --outdir outputs/SAMPLE_001 \
+  --ai-enable \
+  --ai-model gpt-4o-mini
+```
+
+Additional AI files:
+- `outputs/SAMPLE_001/SAMPLE_001.ai_summary.json`
+- `outputs/SAMPLE_001/SAMPLE_001.ai_summary.md`
+
 ## Architecture (Tool v0.1)
 ```mermaid
 flowchart LR
@@ -56,6 +81,8 @@ flowchart LR
     E --> F[Confidence Scoring]
     F --> G[CSV/JSON Exports]
     F --> H[Markdown Report]
+    F --> I[AI Summary Module]
+    I --> J[AI Summary JSON/MD]
 ```
 
 ## What makes this useful
@@ -66,10 +93,10 @@ flowchart LR
 
 ## Roadmap (next)
 - [ ] RGI parser
-- [ ] Disagreement matrix (tool-vs-tool conflicts)
+- [x] Disagreement matrix (tool-vs-tool conflicts)
 - [ ] Drug class ontology harmonization
 - [ ] HTML/PDF report generator
-- [ ] AI narrative summary (strict JSON guardrails)
+- [x] AI narrative summary (strict JSON guardrails)
 - [ ] Docker image
 
 ## Contributing
